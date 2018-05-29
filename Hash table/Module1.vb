@@ -6,21 +6,21 @@
         End Structure
 
 
-        Dim table(9) As dataRecord
+        Dim table(20) As dataRecord
 
         Function genHash(ByVal i As Integer)
-            Return i Mod 10
+            Return i Mod 21
         End Function
 
         Function insert(ByVal r As dataRecord)
             Dim insertionIndex = genHash(r.id)
             Dim repeated As Boolean = False
             Do Until table(insertionIndex).id = 0
-                If insertionIndex = table.Length - 1 And repeated = False Then
-                    insertionIndex = 0
+                If insertionIndex = table.Length - 1 Then
                     If repeated = True Then
                         Return False
                     End If
+                    insertionIndex = 0
                     repeated = True
                 Else
                     insertionIndex += 1
@@ -28,6 +28,23 @@
             Loop
             table(insertionIndex) = r
             Return True
+        End Function
+
+        Function search(ByVal id As Integer)
+            Dim index = id
+            Dim repeated = False
+            Do Until table(index).id = id
+                If index = table.Length - 1 Then
+                    If repeated = True Then
+                        Return False
+                    End If
+                    repeated = True
+                    index = 0
+                Else
+                    index += 1
+                End If
+            Loop
+            Return table(index)
         End Function
 
         Function insert(ByVal name As String, ByVal id As Integer)
